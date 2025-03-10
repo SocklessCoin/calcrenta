@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculateur de rentabilité Trading Spot</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
+        }
+
+        body {
             background-color: #f4f4f4;
             text-align: center;
             padding: 20px;
@@ -23,6 +29,7 @@
 
         h2 {
             color: #333;
+            margin-bottom: 15px;
         }
 
         .question {
@@ -30,33 +37,38 @@
             font-weight: bold;
             margin-top: 15px;
             color: #444;
+            text-align: left;
         }
 
-        input, select {
+        input, select, button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
             text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
         }
 
         button {
             background: #007bff;
             color: white;
             border: none;
-            padding: 12px;
-            width: 100%;
-            border-radius: 5px;
-            font-size: 18px;
-            margin-top: 20px;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 20px;
         }
 
         button:hover {
             background: #0056b3;
+            transform: scale(1.03);
         }
 
         .result {
