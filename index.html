@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur Crypto</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        label, input { display: block; margin-top: 10px; }
+        input { padding: 5px; width: 200px; }
+        button { margin-top: 15px; padding: 10px; cursor: pointer; }
+        .result { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>Calculateur de Rentabilité Crypto</h2>
+    
+    <label>Somme investie (USDT) :</label>
+    <input type="number" id="sommeInvestie" step="0.01" value="14">
+
+    <label>Valeur du coin (USDT) :</label>
+    <input type="number" id="valeurCoin" step="0.0001" value="2.3">
+
+    <label>Taux Maker (%) :</label>
+    <input type="number" id="tauxMaker" step="0.01" value="0.1">
+
+    <label>Taux Taker (%) :</label>
+    <input type="number" id="tauxTaker" step="0.01" value="0.1">
+
+    <label>Pourcentage de bénéfice souhaité (%) :</label>
+    <input type="number" id="pourcentageBenefice" step="0.1" value="5">
+
+    <button onclick="calculerRentabilite()">Calculer</button>
+
+    <div class="result" id="resultats"></div>
+
+    <script>
+        function calculerRentabilite() {
+            let sommeInvestie = parseFloat(document.getElementById("sommeInvestie").value);
+            let valeurCoin = parseFloat(document.getElementById("valeurCoin").value);
+            let tauxMaker = parseFloat(document.getElementById("tauxMaker").value) / 100;
+            let tauxTaker = parseFloat(document.getElementById("tauxTaker").value) / 100;
+            let pourcentageBenefice = parseFloat(document.getElementById("pourcentageBenefice").value) / 100;
+
+            // Calcul du nombre de tokens achetés en prenant en compte les frais Maker
+            let tokensAchetes = sommeInvestie / (valeurCoin * (1 + tauxMaker));
+
+            // Calcul du coût total avec frais Maker
+            let coutTotal = tokensAchetes * valeurCoin * (1 + tauxMaker);
+
+            // Seuil de rentabilité (prix minimal pour couvrir le coût total en tenant compte des frais Taker)
+            let seuilRentabilite = coutTotal / (tokensAchetes * (1 - tauxTaker));
+
+            // Prix cible pour atteindre le bénéfice souhaité
+            let prixVenteCible = seuilRentabilite * (1 + pourcentageBenefice);
+
+            // Somme brute gagnée
+            let sommeBrute = tokensAchetes * prixVenteCible * (1 - tauxTaker);
+
+            // Différence nette (profit final)
+            let differenceNette = sommeBrute - coutTotal;
+
+            // Affichage des résultats
+            document.getElementById("resultats").innerHTML = `
+                Seuil de rentabilité : <b>${seuilRentabilite.toFixed(4)} USDT</b> <br>
+                Prix de vente cible : <b>${prixVenteCible.toFixed(4)} USDT</b> <br>
+                Somme brute gagnée : <b>${sommeBrute.toFixed(2)} USDT</b> <br>
+                Différence nette (profit) : <b>${differenceNette.toFixed(2)} USDT</b>
+            `;
+        }
+    </script>
+
+</body>
+</html>
