@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur Crypto</title>
+    <title>Calculateur de rentabilité Trading Spot</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,7 +32,7 @@
             color: #444;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -64,24 +64,38 @@
             font-size: 16px;
             color: #333;
         }
+
+        .warning {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Calculateur de Rentabilité Crypto</h2>
+        <h2>Calculateur de rentabilité Trading Spot</h2>
 
         <div class="question">Quelle somme je veux investir ?</div>
         <input type="number" id="sommeInvestie" step="0.01" value="0">
+
+        <div class="question">Quel stablecoin j’utilise ?</div>
+        <select id="stablecoin">
+            <option value="USDT" selected>USDT</option>
+            <option value="USDC">USDC</option>
+            <option value="EURI">EURI</option>
+            <option value="EURC">EURC</option>
+        </select>
 
         <div class="question">Quel est le prix actuel du token ?</div>
         <input type="number" id="valeurCoin" step="0.0001" value="0">
 
         <div class="question">Quel est le taux Maker (%) ?</div>
-        <input type="number" id="tauxMaker" step="0.01" value="0">
+        <input type="number" id="tauxMaker" step="0.01" value="0.1">
 
         <div class="question">Quel est le taux Taker (%) ?</div>
-        <input type="number" id="tauxTaker" step="0.01" value="0">
+        <input type="number" id="tauxTaker" step="0.01" value="0.1">
 
         <div class="question">Quel bénéfice (%) je veux obtenir ?</div>
         <input type="number" id="pourcentageBenefice" step="0.1" value="0">
@@ -89,6 +103,12 @@
         <button onclick="calculerRentabilite()">Calculer</button>
 
         <div class="result" id="resultats"></div>
+
+        <div class="warning">
+            ⚠️ <strong>Avertissement :</strong> Investir dans les cryptomonnaies comporte des risques. 
+            Assurez-vous de bien comprendre les frais de trading et la volatilité des marchés avant d’investir.
+            Les performances passées ne garantissent pas les résultats futurs.
+        </div>
     </div>
 
     <script>
@@ -98,6 +118,7 @@
             let tauxMaker = parseFloat(document.getElementById("tauxMaker").value) / 100;
             let tauxTaker = parseFloat(document.getElementById("tauxTaker").value) / 100;
             let pourcentageBenefice = parseFloat(document.getElementById("pourcentageBenefice").value) / 100;
+            let stablecoin = document.getElementById("stablecoin").value;
 
             if (sommeInvestie <= 0 || valeurCoin <= 0) {
                 document.getElementById("resultats").innerHTML = "<span style='color:red;'>Veuillez entrer des valeurs valides.</span>";
@@ -124,10 +145,10 @@
 
             // Affichage des résultats
             document.getElementById("resultats").innerHTML = `
-                Seuil de rentabilité : <b>${seuilRentabilite.toFixed(4)} USDT</b> <br>
-                Prix de vente cible : <b>${prixVenteCible.toFixed(4)} USDT</b> <br>
-                Somme brute après vente : <b>${sommeBrute.toFixed(2)} USDT</b> <br>
-                Différence nette (profit) : <b>${differenceNette.toFixed(2)} USDT</b>
+                Seuil de rentabilité : <b>${seuilRentabilite.toFixed(4)} ${stablecoin}</b> <br>
+                Prix de vente cible : <b>${prixVenteCible.toFixed(4)} ${stablecoin}</b> <br>
+                Somme brute après vente : <b>${sommeBrute.toFixed(2)} ${stablecoin}</b> <br>
+                Différence nette (profit) : <b>${differenceNette.toFixed(2)} ${stablecoin}</b>
             `;
         }
     </script>
